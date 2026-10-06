@@ -1,0 +1,11 @@
+--- src/lib/simulator.ts
++++ src/lib/simulator.ts
+@@ -88,7 +88,7 @@
+ }
+ 
+ const pointId = (x: number, y: number) =>
+-  `${Math.round(x / 5) * 5},${Math.round(y / 5) * 5}`;
++  `${Math.round(x / 1) * 1},${Math.round(y / 1) * 1}`; // Increased precision for pointId mapping
+ 
+ export function simulateDC(
+   elements: any[],

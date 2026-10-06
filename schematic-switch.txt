@@ -1,0 +1,203 @@
+switch (comp.componentType) {
+                  case "resistor":
+                    SymbolView = ResistorSymbol;
+                    break;
+                  case "capacitor":
+                    SymbolView = CapacitorSymbol;
+                    break;
+                  case "capacitor_elec":
+                    SymbolView = CapacitorElectrolyticSymbol;
+                    break;
+                  case "inductor":
+                    SymbolView = InductorSymbol;
+                    break;
+                  case "diode":
+                    SymbolView = DiodeSymbol;
+                    break;
+                  case "zener_diode":
+                    SymbolView = ZenerDiodeSymbol;
+                    break;
+                  case "transistor":
+                    SymbolView = TransistorSymbol;
+                    break;
+                  case "transistor_pnp":
+                    SymbolView = TransistorPNPSymbol;
+                    break;
+                  case "mosfet":
+                    SymbolView = MosfetSymbol;
+                    break;
+                  case "mosfet_p":
+                    SymbolView = MosfetPSymbol;
+                    break;
+                  case "timer555":
+                    SymbolView = Timer555Symbol;
+                    break;
+                  case "opamp":
+                    SymbolView = OpampSymbol;
+                    break;
+                  case "logic_gate":
+                    SymbolView = LogicGateSymbol;
+                    break;
+                  case "logic_and":
+                    SymbolView = LogicAndSymbol;
+                    break;
+                  case "logic_or":
+                    SymbolView = LogicOrSymbol;
+                    break;
+                  case "logic_nand":
+                    SymbolView = LogicNandSymbol;
+                    break;
+                  case "logic_not":
+                    SymbolView = LogicNotSymbol;
+                    break;
+                  case "logic_nor":
+                    SymbolView = LogicNorSymbol;
+                    break;
+                  case "logic_xor":
+                    SymbolView = LogicXorSymbol;
+                    break;
+                  case "ac_source":
+                    SymbolView = ACSourceSymbol;
+                    break;
+                  case "voltmeter":
+                    SymbolView = VoltmeterSymbol;
+                    break;
+                  case "ammeter":
+                    SymbolView = AmmeterSymbol;
+                    break;
+                  case "oscilloscope":
+                    SymbolView = OscilloscopeSymbol;
+                    break;
+                  case "seven_segment":
+                    SymbolView = SevenSegmentSymbol;
+                    break;
+                  case "led":
+                    SymbolView = LEDSymbol;
+                    break;
+                  case "powersupply":
+                    SymbolView = PowerSupplySymbol;
+                    break;
+                  case "battery":
+                    SymbolView = BatterySymbol;
+                    break;
+                  case "lamp":
+                    SymbolView = LampSymbol;
+                    break;
+                  case "switch":
+                    SymbolView = SwitchSymbol;
+                    break;
+                  case "ic":
+                    SymbolView = ICSymbol;
+                    break;
+                  case "ground":
+                    SymbolView = GroundSymbol;
+                    break;
+                  case "arduino_uno":
+                    SymbolView = ArduinoUnoSymbol;
+                    break;
+                  case "esp32":
+                    SymbolView = ESP32Symbol;
+                    break;
+                  case "esp32_cam":
+                    SymbolView = ESP32CamSymbol;
+                    break;
+                  case "raspberry_pi":
+                    SymbolView = RaspberryPiSymbol;
+                    break;
+                  case "buzzer":
+                    SymbolView = BuzzerSymbol;
+                    break;
+                  case "relay":
+                    SymbolView = RelaySymbol;
+                    break;
+                  case "relay_module":
+                    SymbolView = RelayModuleSymbol;
+                    break;
+                  case "potentiometer":
+                    SymbolView = PotentiometerSymbol;
+                    break;
+                  case "oled":
+                    SymbolView = OLEDSymbol;
+                    break;
+                  case "motor":
+                    SymbolView = MotorSymbol;
+                    break;
+                  case "servo_motor":
+                    SymbolView = ServoMotorSymbol;
+                    break;
+                  case "attiny85":
+                    SymbolView = ATtiny85Symbol;
+                    break;
+                  case "stm32_bluepill":
+                    SymbolView = STM32BluePillSymbol;
+                    break;
+                  case "protoboard":
+                    SymbolView = ProtoboardSymbol;
+                    break;
+                  case "usb_c":
+                    SymbolView = USBCSymbol;
+                    break;
+                  
+                  case "accelerometer_pcb":
+                    SymbolView = PCBAccelerometerSymbol;
+                    break;
+                  case "gps_pcb":
+                    SymbolView = PCBGPSSymbol;
+                    break;
+                  case "gas_sensor_pcb":
+                    SymbolView = PCBGasSensorSymbol;
+                    break;
+                  
+
+                  case "digital_multimeter":
+                    SymbolView = DigitalMultimeterSymbol;
+                    break;
+                  case "esp32s3":
+                    SymbolView = ESP32S3Symbol;
+                    break;
+                  case "micro_usb":
+                    SymbolView = MicroUSBSymbol;
+                    break;
+                                                                        case "ultrasonic":
+                    SymbolView = UltrasonicSymbol;
+                    break;
+                  case "hc05":
+                    SymbolView = HC05Symbol;
+                    break;
+                  case "dht11":
+                    SymbolView = DHT11Symbol;
+                    break;
+                  case "esp8266":
+                    SymbolView = ESP8266Symbol;
+                    break;
+                  case "ldr":
+                    SymbolView = LDRSymbol;
+                    break;
+                  case "ntc":
+                    SymbolView = NTCSymbol;
+                    break;
+                  case "gas_sensor":
+                    SymbolView = GasSensorSymbol;
+                    break;
+                  case "stepper_motor":
+                    SymbolView = StepperMotorSymbol;
+                    break;
+                  case "motor_driver":
+                    SymbolView = MotorDriverSymbol;
+                    break;
+                  case "accelerometer":
+                    SymbolView = AccelerometerSymbol;
+                    break;
+                  case "gps":
+                    SymbolView = GPSSymbol;
+                    break;
+                  case "cr2032":
+                    SymbolView = CR2032Symbol;
+                    break;
+                  case "crystal":
+                    SymbolView = CrystalSymbol;
+                    break;
+                  
+                  default:
+                    SymbolView = GroundSymbol;
+                }

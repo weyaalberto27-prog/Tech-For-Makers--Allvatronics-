@@ -1,0 +1,94 @@
+--- src/lib/simulator.ts
++++ src/lib/simulator.ts
+@@ -326,45 +326,50 @@
+         } else if (comp.componentType.startsWith("logic_")) {
+-        // Logic gates: assume pins[0] is input A, pins[1] is input B, pins[7] is output Y (for quad 2-input)
+-        // Standard 7408/etc has 14 pins. Top left is 1 (index 0).
+-        // pinMap for logic gates: 14 pins.
+-        // 1A (pin 0), 1B (pin 1), 1Y (pin 2).
+-        const n1A = pointToNode.get(pins[0]);
+-        const n1B = pointToNode.get(pins[1]);
+-        const n1Y = pointToNode.get(pins[2]);
+-
+-        // Add high impedance to inputs to ensure numerical stability and default low state
+-        if (n1A !== undefined)
+-          resistors.push({ node1: n1A, node2: gndNode, g: 1e-6 });
+-        if (n1B !== undefined)
+-          resistors.push({ node1: n1B, node2: gndNode, g: 1e-6 });
+-
+-        // Read previous voltages if available, or just evaluate dynamically via voltage sources
+-        const threshold = 2.5;
+-        if (n1A !== undefined && n1B !== undefined && n1Y !== undefined) {
+-          // Since we can't easily model non-linear dynamic logic in a static DC pass without iteration,
+-          // We use a simplified model: if previous voltage (or just random state)
+-          // Wait, we need pointVoltages from previous frame. We don't have it explicitly stored per element.
+-          // But we can approximate using `((window as any)._logicState || {})`
+-          if (!(window as any)._logicState) (window as any)._logicState = {};
+-
+-          let stateA =
+-            ((window as any)._logicState[`${comp.id}_A`] || 0) > threshold;
+-          let stateB =
+-            ((window as any)._logicState[`${comp.id}_B`] || 0) > threshold;
+-
+-          let outState = false;
+-          if (comp.componentType === "logic_and") outState = stateA && stateB;
+-          else if (comp.componentType === "logic_or")
+-            outState = stateA || stateB;
+-          else if (comp.componentType === "logic_nand")
+-            outState = !(stateA && stateB);
+-          else if (comp.componentType === "logic_nor")
+-            outState = !(stateA || stateB);
+-          else if (comp.componentType === "logic_xor")
+-            outState = stateA !== stateB;
+-
+-          let vOut = outState ? 5 : 0;
+-          vSources.push({
+-            compId: comp.id,
+-            node1: n1Y,
++          // Quad 2-input logic gates (74xx series - 14 pins)
++          const gates = [
++            { a: 0, b: 1, y: 2 },
++            { a: 3, b: 4, y: 5 },
++            { a: 8, b: 9, y: 7 },
++            { a: 11, b: 12, y: 10 }
++          ];
++          
++          const lastVolt = (window as any)._lastVoltages || {};
++          const vcc = lastVolt[pins[13]] || 0;
++          const gnd = lastVolt[pins[6]] || 0;
++          const isPowered = vcc > 3 && gnd < 1;
++          const threshold = vcc / 2 || 2.5;
++
++          gates.forEach((gate, i) => {
++            const nA = pointToNode.get(pins[gate.a]);
++            const nB = pointToNode.get(pins[gate.b]);
++            const nY = pointToNode.get(pins[gate.y]);
++
++            if (nA !== undefined) resistors.push({ node1: nA, node2: gndNode, g: 1e-6 });
++            if (nB !== undefined) resistors.push({ node1: nB, node2: gndNode, g: 1e-6 });
++
++            if (nA !== undefined && nB !== undefined && nY !== undefined) {
++              let stateA = (lastVolt[pins[gate.a]] || 0) > threshold;
++              let stateB = (lastVolt[pins[gate.b]] || 0) > threshold;
++
++              let outState = false;
++              if (comp.componentType === "logic_and") outState = stateA && stateB;
++              else if (comp.componentType === "logic_or") outState = stateA || stateB;
++              else if (comp.componentType === "logic_nand") outState = !(stateA && stateB);
++              else if (comp.componentType === "logic_nor") outState = !(stateA || stateB);
++              else if (comp.componentType === "logic_xor") outState = stateA !== stateB;
++
++              let vOut = outState ? Math.max(0, vcc - 0.5) : Math.min(vcc, gnd + 0.5);
++              
++              if (isPowered) {
++                vSources.push({
++                  compId: comp.id + "_" + i,
++                  node1: nY,
++                  node2: pointToNode.get(pins[6]) !== undefined ? pointToNode.get(pins[6])! : gndNode,
++                  v: outState ? (vcc - gnd) : 0,
++                });
++              } else {
++                resistors.push({ node1: nY, node2: gndNode, g: 1e-6 });
++              }
++            }
++          });

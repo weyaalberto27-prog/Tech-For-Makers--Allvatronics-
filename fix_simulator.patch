@@ -1,0 +1,9 @@
+--- src/lib/simulator.ts
++++ src/lib/simulator.ts
+@@ -103,7 +103,7 @@
+   };
+ 
+   const compPins = new Map<string, string[]>();
+   const groundNodes = new Set<string>();
+ 
+   elements.forEach((el) => {

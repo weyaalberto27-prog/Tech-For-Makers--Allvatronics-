@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny all unknown paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(ownerId) {
+      return isSignedIn() && (ownerId == request.auth.uid || request.auth.token.email == 'allvaprogram@gmail.com');
+    }
+
+    // Users collection: private profile access
+    match /users/{userId} {
+      allow read, write: if isSignedIn() && (request.auth.uid == userId || request.auth.token.email == 'allvaprogram@gmail.com');
+    }
+
+    // Projects collection: scoped to owner
+    match /projects/{projectId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isOwner(request.resource.data.ownerId);
+      allow update: if isSignedIn() && isOwner(resource.data.ownerId);
+      allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
+    }
+
+    // AllvaCreator projects: scoped to owner
+    match /allvacreator_projects/{projectId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isOwner(request.resource.data.ownerId);
+      allow update: if isSignedIn() && isOwner(resource.data.ownerId);
+      allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
+    }
+
+    // User chats collection: scoped to user
+    match /user_chats/{userId} {
+      allow read, write: if isSignedIn() && (request.auth.uid == userId || request.auth.token.email == 'allvaprogram@gmail.com');
+    }
+  }
+}

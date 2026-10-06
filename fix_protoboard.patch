@@ -1,0 +1,38 @@
+--- src/lib/simulator.ts
++++ src/lib/simulator.ts
+@@ -141,6 +141,40 @@
+       if (comp.componentType === "ground") {
+         groundNodes.add(ids[0]);
+       }
++      
++      if (comp.componentType === "protoboard") {
++        // Middle top columns
++        for (let col = 0; col < 60; col++) {
++          for (let row = 0; row < 4; row++) {
++            addWireEdge(pins[col + row * 60], pins[col + (row + 1) * 60]);
++          }
++        }
++        // Middle bottom columns
++        for (let col = 0; col < 60; col++) {
++          for (let row = 0; row < 4; row++) {
++            addWireEdge(pins[300 + col + row * 60], pins[300 + col + (row + 1) * 60]);
++          }
++        }
++        // Power rails (4 rows of 60 pins)
++        const powerRailsOffsets = [600, 660, 720, 780];
++        for (const offset of powerRailsOffsets) {
++          // Connect continuous segments of power rails
++          // We'll skip the gaps where holes don't exist visually.
++          // Actually, let's just connect them all horizontally.
++          for (let col = 0; col < 59; col++) {
++            // Standard breadboards may have a split in the middle, but let's connect all 60 for simplicity,
++            // unless we want to honor the visual gaps. Visually, every 5 holes is a block. 
++            // So if c/5 % 2 == 0, it exists. Let's just connect the ones that are adjacent in the visual block.
++            // Actually, power rails are internally continuous! The gaps just don't have holes.
++            // So they should be connected.
++            addWireEdge(pins[offset + col], pins[offset + col + 1]);
++          }
++        }
++      }
+     }
+   });

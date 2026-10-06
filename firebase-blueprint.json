@@ -1,0 +1,71 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile in AllvaTronics Pro",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Schematic and PCB design project",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "name": { "type": "string" },
+        "elements": { "type": "string" },
+        "pcbElements": { "type": "string" },
+        "updateAt": { "type": "string" }
+      },
+      "required": ["ownerId", "name"]
+    },
+    "AllvaCreatorProject": {
+      "title": "AllvaCreatorProject",
+      "description": "3D virtual breadboard / parts project",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "name": { "type": "string" },
+        "desc": { "type": "string" },
+        "parts": { "type": "array" },
+        "wiringConnections": { "type": "array" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["ownerId", "name"]
+    },
+    "UserChat": {
+      "title": "UserChat",
+      "description": "AI Assistant chat history per user",
+      "type": "object",
+      "properties": {
+        "messages": { "type": "array" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["messages"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User documents keyed by user UID"
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Circuit and PCB projects created by users"
+    },
+    "/allvacreator_projects/{projectId}": {
+      "schema": "AllvaCreatorProject",
+      "description": "AllvaCreator 3D lab projects"
+    },
+    "/user_chats/{userId}": {
+      "schema": "UserChat",
+      "description": "AI assistant conversation histories"
+    }
+  }
+}
